@@ -1,19 +1,22 @@
-import { useState } from "react";
 import { useAxios } from "../shared/hooks/useAxios"
 import { CharacterList } from "./components/CharacterList";
 import type { Character } from "../models";
+import { useCallback, useContext } from "react";
+import { ModalContext } from "../shared/components/Modal/context/ModalContext";
+import { Modal } from "../shared/components/Modal/Modal";
+import { characterService } from "./services/CharacterService";
 
 export const CharactersContainer = () => {
-  const [trigger, setTrigger] = useState<boolean>(false);
+  const serviceCall = useCallback(() => characterService.getCharacters(), []);
+  const {setState} = useContext(ModalContext);
 
   const { isLoading, data: characters, error } = useAxios<void, Character[]>({
-    url: "http://localhost:4000/characters",
-    method: "GET",
-    trigger
+    serviceCall,
+    trigger: true,
   })
 
-  const triggerChange = () => {
-    setTrigger((prev) => !prev)
+  const openModal = () => {
+    setState(true);
   }
 
   if (isLoading) return <p>Cargando Personajes...</p>
@@ -27,6 +30,10 @@ export const CharactersContainer = () => {
         :
         <div>No hay personajes</div>
       }
+      <button onClick={openModal}>Crear Personaje</button>
+      <Modal>
+        <div></div>
+      </Modal>
     </>
   )
 }
