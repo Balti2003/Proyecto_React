@@ -2,7 +2,6 @@ import { createContext, useReducer } from "react";
 import React from "react";
 import { CharacterActionType, type CharacterAction, type CharacterState } from "../models/CharacterState";
 
-
 const initialState: CharacterState = {
   characters: new Map()
 }
@@ -63,7 +62,6 @@ const characterReducer = (state: CharacterState, action: CharacterAction): Chara
 interface Props {
   children: React.ReactNode
 }
-
 export const CharacterProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(characterReducer, initialState)
 

@@ -1,13 +1,13 @@
 import { useAxios } from "../shared/hooks/useAxios"
 import { CharacterList } from "./components/CharacterList";
-import type { Character } from "../models";
+import { characterService } from "./services";
 import { useCallback, useContext, useEffect } from "react";
 import { ModalContext } from "../shared/components/Modal/context/ModalContext";
 import { Modal } from "../shared/components/Modal/Modal";
-import { characterService } from "./services/CharacterService";
-import { CharacterForm } from "./components";
+import { CharacterForm } from "./components/CharacterForm";
 import { CharacterContext } from "./context/CharacterContext";
 import { CharacterActionType } from "./models/CharacterState";
+import type { Character } from "./models";
 
 export const CharactersContainer = () => {
   const serviceCall = useCallback(() => characterService.getCharacters(), [])

@@ -1,31 +1,30 @@
-import { CharacterItem } from "./CharacterItem";
-import type { Character } from "../../models";
-import { characterService } from "../services";
-import { CharacterContext } from "../context/CharacterContext";
 import { useCallback, useContext } from "react";
+import { characterService } from "../services";
+import { CharacterItem } from "./CharacterItem";
+import { CharacterContext } from "../context/CharacterContext";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../shared/hooks/useAxios";
 import { CharacterActionType } from "../models/CharacterState";
+import type { Character } from "../models";
 
 interface Props {
   characters: Character[],
-  //onDelete: () => void
+  // onDelete: () => void
 }
 
 export const CharacterList = ({ characters }: Props) => {
-
   const { dispatch } = useContext(CharacterContext)
   const navigate = useNavigate();
 
   const deleteCharacterServiceCall = useCallback((id: number) => characterService.deleteCharacter(id), [])
- 
+
   const { error: deleteError, executeFetch: executeDeleteCharacterFetch } = useAxios<number, void>({
     serviceCall: deleteCharacterServiceCall
   })
 
   const handleDelete = async (id: number) => {
     executeDeleteCharacterFetch(id)
-    if(!deleteError) {
+    if (!deleteError) {
       dispatch({
         type: CharacterActionType.DELETE,
         payload: id

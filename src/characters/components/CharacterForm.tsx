@@ -1,26 +1,26 @@
 import { z } from "zod";
+import { Gender, Status } from "../models";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import { FormInput } from "../../shared/components";
-import { ModalContext } from "../../shared/components/Modal/context/ModalContext";
-import { Gender, Status } from "../../models";
 import { CharacterContext } from "../context/CharacterContext";
 import { CharacterActionType } from "../models/CharacterState";
-import { characterService } from "../services/CharacterService";
+import { characterService } from "../services";
+import { FormInput } from "../../shared/components";
+import { ModalContext } from "../../shared/components/Modal/context/ModalContext";
 
 const characterSchema = z.object(
   {
     id: z.number().default(-1),
     name: z.string().min(1, "El nombre es requerido"),
     status: z.nativeEnum(Status, {
-      //errorMap: () => ({ message: "Status inválido" })
+      errorMap: () => ({ message: "Status inválido" })
     }),
     species: z.string().min(1, "La especia es requerida"),
     type: z.string(),
     gender: z.nativeEnum(Gender, {
-      //errorMap: () => ({ message: "Género inválido" }),
+      errorMap: () => ({ message: "Género inválido" }),
     }),
     origin: z.object({
       name: z.string().min(1, "El origen es requerido"),

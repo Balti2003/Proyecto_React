@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { CharactersContainer } from "../characters/CharactersContainer"
 import { AuthContext } from "../auth/context/AuthContext"
 import { AuthContainer } from "../auth/AuthContainer"
-import { CharacterForm } from "../characters/components"
+import { CharacterForm } from "../characters/components/CharacterForm"
 import { CharacterProvider } from "../characters/context/CharacterContext"
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
