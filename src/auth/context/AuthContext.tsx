@@ -1,14 +1,13 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, type ReactNode, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, type ReactNode } from "react";
 import { TokenStorage } from "../../shared/services";
-import { AuthActionType, type AuthAction, type AuthState, type User } from "../models";
-
+import { AuthActionType, type AuthAction, type AuthState, type User } from "../models/AuthState";
 
 const initialState: AuthState = {
   isAuthenticated: false,
   user: null
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<{
   state: AuthState;
   dispatch: React.Dispatch<AuthAction>

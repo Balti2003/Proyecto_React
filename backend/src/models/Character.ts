@@ -74,4 +74,3 @@ export const deleteCharacter = (id: number): boolean => {
   }
   return false;
 };
-

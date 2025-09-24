@@ -27,4 +27,3 @@ export const findUserByEmail = (email: string): User | undefined => {
 export const validatePassword = async (user: User, password: string): Promise<boolean> => {
   return await bcrypt.compare(password, user.passwordHash);
 };
-

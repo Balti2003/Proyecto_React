@@ -2,7 +2,6 @@ import { TokenStorage } from "../../shared/services";
 import { AuthAdapter } from "../adapters/AuthAdapter";
 import type { User } from "../models";
 
-
 export class AuthService {
   private authAdapter = new AuthAdapter();
 

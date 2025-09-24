@@ -82,4 +82,3 @@ characterRouter.delete('/:id', (req: AuthenticatedRequest, res: ExpressResponse)
 });
 
 export default characterRouter;
-
