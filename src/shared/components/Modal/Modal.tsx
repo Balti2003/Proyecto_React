@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { ModalContext } from "./context/ModalContext";
+import "./Modal.css"
 
 interface Props {
     children: React.ReactNode;
@@ -9,9 +10,6 @@ interface Props {
 export const Modal = ({ children }: Props) => {
     const modalRef = useRef<HTMLDivElement>(null)
     const { state, setState } = useContext(ModalContext);
-    
-    const modalRoot = document.getElementById("modal")
-    if (!modalRoot) return null;
 
     const closeModal = () => {
         setState(false)
@@ -21,7 +19,6 @@ export const Modal = ({ children }: Props) => {
         e.stopPropagation()
     }
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
@@ -37,6 +34,11 @@ export const Modal = ({ children }: Props) => {
             document.removeEventListener("keydown", handleEsc)
         }
     }, [setState, state])
+
+    if (!state) return null;
+
+    const modalRoot = document.getElementById("modal")
+    if (!modalRoot) return null;
 
     return createPortal(
     <div className="overlay" onClick={closeModal}>

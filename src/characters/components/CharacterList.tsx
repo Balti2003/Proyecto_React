@@ -1,23 +1,40 @@
 import { CharacterItem } from "./CharacterItem";
-import { CharacterService } from "../services";
 import type { Character } from "../../models";
+import { characterService } from "../services";
+import { CharacterContext } from "../context/CharacterContext";
+import { useCallback, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAxios } from "../../shared/hooks/useAxios";
+import { CharacterActionType } from "../models/CharacterState";
 
 interface Props {
   characters: Character[],
-  onDelete: () => void
+  //onDelete: () => void
 }
 
-export const CharacterList = ({ characters, onDelete }: Props) => {
+export const CharacterList = ({ characters }: Props) => {
 
-  const characterService = new CharacterService()
+  const { dispatch } = useContext(CharacterContext)
+  const navigate = useNavigate();
+
+  const deleteCharacterServiceCall = useCallback((id: number) => characterService.deleteCharacter(id), [])
+ 
+  const { error: deleteError, executeFetch: executeDeleteCharacterFetch } = useAxios<number, void>({
+    serviceCall: deleteCharacterServiceCall
+  })
 
   const handleDelete = async (id: number) => {
-    try {
-      await characterService.deleteCharacter(id)
-      onDelete()
-    } catch (err) {
-      console.log("Error al eliminar un personaje", err);
+    executeDeleteCharacterFetch(id)
+    if(!deleteError) {
+      dispatch({
+        type: CharacterActionType.DELETE,
+        payload: id
+      })
     }
+  }
+
+  const handleEdit = (id: number) => {
+    navigate(`/character/${id}`)
   }
 
   return (
@@ -25,6 +42,7 @@ export const CharacterList = ({ characters, onDelete }: Props) => {
       characters.map((character) => (
         <CharacterItem key={character.id} character={character} >
           <button onClick={() => handleDelete(character.id)}>Eliminar</button>
+          <button onClick={() => handleEdit(character.id)}>Editar</button>
         </CharacterItem>
       ))
     }</ul>

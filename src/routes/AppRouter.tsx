@@ -4,6 +4,7 @@ import { CharactersContainer } from "../characters/CharactersContainer"
 import { AuthContext } from "../auth/context/AuthContext"
 import { AuthContainer } from "../auth/AuthContainer"
 import { CharacterForm } from "../characters/components"
+import { CharacterProvider } from "../characters/context/CharacterContext"
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const { state } = useContext(AuthContext)
@@ -14,7 +15,7 @@ const PrivateRoute = ({ children }: { children: ReactNode }) => {
 export const AppRouter = () => (
   <Routes>
     <Route path="/*" element={<AuthContainer />} />
-    <Route path="/characters" element={<PrivateRoute><CharactersContainer /></PrivateRoute>} />
-    <Route path="/character/:id" element={<PrivateRoute><CharacterForm /></PrivateRoute>} />
+    <Route path="/characters" element={<PrivateRoute><CharacterProvider><CharactersContainer /></CharacterProvider></PrivateRoute>} />
+    <Route path="/character/:id" element={<PrivateRoute><CharacterProvider><CharacterForm /></CharacterProvider></PrivateRoute>} />
   </Routes>
 )
